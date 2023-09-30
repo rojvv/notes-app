@@ -11,8 +11,8 @@ A simple Telegram mini app that lets you take notes.
 ## Architecture
 
 The [front end](./app) is powered by React and [Lexical](https://lexical.dev).
-The [back end](./api) persists data in a PostgreSQL database, and powers a bot
-webhook at the same time.
+The [back end](./api) persists data in a PostgreSQL database, and hosts a Bot
+API webhook at the same time.
 
 ## Development
 
@@ -23,8 +23,8 @@ To work on this project, you need to have:
 - A Telegram bot in the test servers with its Web App URL being
   http://localhost:3000.
 
-After cloning the repository, and setting the required environment variables BOT_TOKEN
-and POSTGRESQL_URI, you can start the development server like this:
+After cloning the repository, and setting the required environment variables
+BOT_TOKEN and POSTGRESQL_URI, you can start the development server like this:
 
 ```bash
 cd app/
