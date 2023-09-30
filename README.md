@@ -23,7 +23,7 @@ To work on this project, you need to have:
 - A Telegram bot in the test servers with its Web App URL being
   http://localhost:3000.
 
-After cloning the repository, and the required environment variables BOT_TOKEN
+After cloning the repository, and setting the required environment variables BOT_TOKEN
 and POSTGRESQL_URI, you can start the development server like this:
 
 ```bash
