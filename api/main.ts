@@ -58,7 +58,7 @@ router.post("/notes/:id", async (ctx) => {
   const text = await ctx.request.body({ type: "text" }).value; // TODO: validate
   await db
     .update(notes)
-    .set({ updatedAt: sql`now()`, text }).where(
+    .set({ text }).where(
       and(
         eq(notes.userId, ctx.state.user.id),
         eq(notes.id, id),
@@ -112,10 +112,17 @@ router.post("/notes", async (ctx) => {
   ctx.response.body = id;
 });
 
-router.post(
-  `/${env.BOT_TOKEN.replaceAll(":", "\\:")}`,
-  webhookCallback(bot, "oak"),
-);
+const botTokenPath = `/${env.BOT_TOKEN.replaceAll(":", "\\:")}`;
+router.post(botTokenPath, webhookCallback(bot, "oak"));
+router.get(botTokenPath, async (ctx) => {
+  try {
+    ctx.response.body = await bot.api.setWebhook(ctx.request.url.toString(), {
+      drop_pending_updates: true,
+    });
+  } catch (err) {
+    ctx.response.body = err instanceof Error ? err.message : String(err);
+  }
+});
 
 app.use(router.routes());
 
