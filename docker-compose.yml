@@ -1,6 +1,6 @@
 services:
   notes:
-    image: roj1512/notes-app
+    image: rojserbest/notes-app
     restart: always
     container_name: notes-app
     ports:
