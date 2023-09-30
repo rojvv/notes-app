@@ -14,4 +14,10 @@ export { Application, Router, Status } from "oak/mod.ts";
 export { migrate } from "drizzle-orm/postgres-js/migrator";
 export { cleanEnv, host, port, str, url } from "envalid/mod.ts";
 export { drizzle, type PostgresJsDatabase } from "drizzle-orm/postgres-js";
-export { Bot, type BotConfig, Context, webhookCallback } from "grammy/mod.ts";
+export {
+  Bot,
+  type BotConfig,
+  Context,
+  InlineKeyboard,
+  webhookCallback,
+} from "grammy/mod.ts";

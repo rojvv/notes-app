@@ -1,4 +1,13 @@
-import { and, Bot, BotConfig, Context, eq, MessageEntity, z } from "./deps.ts";
+import {
+  and,
+  Bot,
+  BotConfig,
+  Context,
+  eq,
+  InlineKeyboard,
+  MessageEntity,
+  z,
+} from "./deps.ts";
 import env from "./env.ts";
 import { db } from "./database.ts";
 import { notes } from "./schema.ts";
@@ -19,6 +28,21 @@ export const bot = new Bot(
 );
 
 bot.catch(console.trace);
+
+bot
+  .chatType("private")
+  .command("start", async (ctx) => {
+    let url: string | null = null;
+    try {
+      url = new URL(env.WEB_APP_URL).toString();
+    } catch {
+      return;
+    }
+    await ctx.reply("Click the button below to launch the app.", {
+      reply_markup: new InlineKeyboard()
+        .webApp("Notes", url),
+    });
+  });
 
 bot.on("inline_query", async (ctx) => {
   let { query } = ctx.inlineQuery;
@@ -48,7 +72,7 @@ bot.on("inline_query", async (ctx) => {
     }], { cache_time: 900 });
     return;
   }
-  
+
   const notes_ = await db
     .select()
     .from(notes)
