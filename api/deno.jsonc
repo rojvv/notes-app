@@ -1,0 +1,11 @@
+{
+  "lock": false,
+  "importMap": "./import_map.json",
+  "fmt": {
+    "exclude": ["./drizzle/"]
+  },
+  "tasks": {
+    "dev": "deno run --allow-env --allow-net --allow-read --watch --allow-write main.ts",
+    "start": "deno run --allow-env --allow-net --allow-read --allow-write main.ts"
+  }
+}

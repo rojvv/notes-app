@@ -1,0 +1,22 @@
+services:
+  notes:
+    image: roj1512/notes-app
+    restart: always
+    container_name: notes-app
+    ports:
+      - 127.0.0.1:3000:3000
+    environment:
+      - DB_URI=postgresql://postgres@postgres/main
+
+  postgres:
+    image: postgres:15.4
+    restart: always
+    container_name: notes-app_postgres
+    volumes:
+      - notes-app:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=main
+
+volumes:
+  notes-app:

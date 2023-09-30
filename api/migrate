@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+PKG_MGR=$1
+
+if [ -z "$PKG_MGR" ]; then
+    PKG_MGR="pnpm"
+fi
+
+if [ ! -f package.json ]; then
+    $PKG_MGR install drizzle-orm
+    $PKG_MGR install drizzle-kit
+fi
+
+
+if [ "$PKG_MGR" = "npm" ]; then
+    PKG_MGR="npx"
+fi
+
+$PKG_MGR drizzle-kit generate:pg

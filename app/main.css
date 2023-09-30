@@ -1,0 +1,7 @@
+[contenteditable]:focus {
+  outline: none;
+}
+
+.__underlineStrikethrough {
+  text-decoration: line-through underline;
+}

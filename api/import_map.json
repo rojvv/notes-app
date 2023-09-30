@@ -1,0 +1,15 @@
+{
+  "imports": {
+    "std/": "https://deno.land/std@0.203.0/",
+    "oak/": "https://deno.land/x/oak@v12.6.1/",
+    "zod/": "https://deno.land/x/zod@v3.22.2/",
+    "envalid/": "https://deno.land/x/envalid@0.1.2/",
+    "grammy/": "https://deno.land/x/grammy@v1.19.0/",
+    "drizzle-orm": "https://esm.sh/drizzle-orm@0.28.6",
+    "oak_cors/": "https://deno.land/x/oak_cors@v0.1.1/",
+    "postgres/": "https://deno.land/x/postgres@v0.17.0/",
+    "drizzle-orm/": "https://esm.sh/drizzle-orm@0.28.6/",
+    "postgresjs/": "https://deno.land/x/postgresjs@v3.3.5/",
+    "@types/telegram-web-app": "https://esm.sh/@types/telegram-web-app@6.9.1/index.d.ts"
+  }
+}

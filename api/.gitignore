@@ -1,0 +1,8 @@
+/.env
+
+/node_modules/
+/package.json
+
+/yarn.lock
+/pnpm-lock.yaml
+/package-lock.json
