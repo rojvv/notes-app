@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "72bd9ad2-38f4-4184-b9cb-4123d55e9e2b",
+  "id": "a5a73477-f2de-424d-b644-0053c02b1ef7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "notes": {
@@ -14,6 +14,19 @@
           "primaryKey": true,
           "notNull": true,
           "default": "gen_random_uuid()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
         },
         "user_id": {
           "name": "user_id",
