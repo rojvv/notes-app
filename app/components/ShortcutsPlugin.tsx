@@ -7,7 +7,7 @@ import {
 } from "lexical";
 import { useEffect } from "react";
 import { editorStore } from "../state";
-import { isMac } from "../utilities";
+import { isMac, toggleSpoiler } from "../utilities";
 
 const codeKey = isMac ? "KeyK" : "KeyM";
 
@@ -30,6 +30,10 @@ export function ShortcutsPlugin() {
         } else if (code == "KeyK" && (ctrlKey || metaKey) && !isMac) {
           event.preventDefault();
           editorStore.setState({ linkDialogOpen: true });
+          return true;
+        } else if (code == "KeyS" && (ctrlKey || metaKey) && shiftKey) {
+          event.preventDefault();
+          toggleSpoiler(editor);
           return true;
         }
         return false;

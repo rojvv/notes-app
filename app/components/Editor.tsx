@@ -5,6 +5,7 @@ import {
 } from "@lexical/react/LexicalComposer";
 import { CodeNode } from "@lexical/code";
 import { LinkNode } from "@lexical/link";
+import { MarkNode } from "@lexical/mark";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
@@ -42,6 +43,7 @@ export function Editor({
       url: "[&:not(code)]:text-link",
       tgurl: "[&:not(code)]:text-link",
       link: "[&:not(code)]:text-link",
+      mark: "bg-text/10 text-text",
       text: {
         bold: "bold",
         italic: "italic",
@@ -61,6 +63,7 @@ export function Editor({
       UrlNode,
       TgUrlNode,
       LinkNode,
+      MarkNode,
     ],
   };
 

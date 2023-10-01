@@ -16,7 +16,11 @@ function hasFormat(format: number, f: Format) {
 export function collectTextAndEntities(node: any): [string, MessageEntity[]] {
   let text = "";
   const entities = new Array<MessageEntity>();
-  for (const { text: text_, format, link } of collectTextAndFormat(node)) {
+  const { text: t, spoilers } = collectTextAndFormat(node);
+  for (const s of spoilers) {
+    entities.push({ ...s, type: "spoiler" });
+  }
+  for (const { text: text_, format, link } of t) {
     const offset = text.length;
     const length = text_.length;
     if (link !== undefined) {
@@ -49,28 +53,43 @@ export function collectTextAndEntities(node: any): [string, MessageEntity[]] {
 
 // deno-lint-ignore no-explicit-any
 export function collectText(node: any) {
-  return collectTextAndFormat(node).map((v) => v.text)
+  return collectTextAndFormat(node).text.map((v) => v.text)
     .join("");
 }
-function collectTextAndFormat(
-  // deno-lint-ignore no-explicit-any
-  node: any,
-): { text: string; format?: number; link?: string }[] {
+const extend = (
+  text: ReturnType<typeof collectTextAndFormat>["text"],
+  spoilers: ReturnType<typeof collectTextAndFormat>["spoilers"],
+  ret: ReturnType<typeof collectTextAndFormat>,
+  link?: string,
+) => {
+  for (const i of ret.text) {
+    text.push({ ...i, link: typeof link === "string" ? link : i.link });
+  }
+  for (const i of ret.spoilers) {
+    spoilers.push(i);
+  }
+};
+// deno-lint-ignore no-explicit-any
+function collectTextAndFormat(node: any, offset = 0) {
   const text = new Array<{ text: string; format?: number; link?: string }>();
+  const spoilers = new Array<{ offset: number; length: number }>();
+  const getOffset = () => offset + text.map((v) => v.text).join("").length;
   try {
     if (Array.isArray(node)) {
       for (const i of node) {
-        for (const i_ of collectTextAndFormat(i)) {
-          text.push(i_);
-        }
+        extend(text, spoilers, collectTextAndFormat(i, getOffset()));
       }
-      return text;
+      return { text, spoilers };
     }
     if (node.type == "paragraph") {
-      for (const i of collectTextAndFormat(node.children)) {
-        text.push(i);
-      }
+      extend(text, spoilers, collectTextAndFormat(node.children, getOffset()));
       text.push({ text: "\n" });
+    } else if (node.type == "mark") {
+      const offset = getOffset();
+      const r = collectTextAndFormat(node.children, getOffset());
+      const length = r.text.map((v) => v.text).join("").length;
+      extend(text, spoilers, r);
+      spoilers.push({ offset, length });
     } else if ("text" in node) {
       let format = 0;
       if ("format" in node && typeof node.format === "number") {
@@ -79,18 +98,18 @@ function collectTextAndFormat(
       text.push({ text: node.text, format });
     } else if ("children" in node) {
       for (const child of node.children) {
-        for (const i of collectTextAndFormat(child)) {
-          text.push({
-            ...i,
-            link: node.type == "link" ? node.url : i.link,
-          });
-        }
+        extend(
+          text,
+          spoilers,
+          collectTextAndFormat(child, getOffset()),
+          node.type == "link" ? node.url : undefined,
+        );
       }
     }
   } catch {
     //
   }
-  return text;
+  return { text, spoilers };
 }
 
 function summarize(string: string, label: string) {

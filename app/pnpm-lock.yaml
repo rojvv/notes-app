@@ -17,6 +17,9 @@ dependencies:
   '@lexical/link':
     specifier: ^0.12.2
     version: 0.12.2(lexical@0.12.2)
+  '@lexical/mark':
+    specifier: ^0.12.2
+    version: 0.12.2(lexical@0.12.2)
   '@lexical/markdown':
     specifier: ^0.12.2
     version: 0.12.2(@lexical/clipboard@0.12.2)(@lexical/selection@0.12.2)(lexical@0.12.2)
