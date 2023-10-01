@@ -19,7 +19,7 @@ const {
 
 loadNotes();
 
-install(
+const tw = install(
   defineConfig({
     hash: false, // must be false
     presets: [presetAutoprefix(), presetTailwind()],
@@ -38,5 +38,13 @@ install(
     },
   })
 );
+
+// classes used in LinkDialog
+tw(`fixed w-full h-screen top-0 left-0 bg-bg/60 z-[9999] flex items-center justify-center p-5 select-none duration-200
+w-full bg-secondary_bg p-5 max-w-md rounded-md flex flex-col gap-5
+border-hint/25 bg-transparent border-b-[2px] text-lg px-1.5 py-1 focus:border-button duration-75 outline-none focus:outline-none
+flex items-center justify-end w-full
+text-button px-4 py-1 hover:opacity-75 duration-75
+text-button_text bg-button px-4 py-1 rounded-md hover:opacity-75 duration-75`);
 
 createRoot(document.body).render(<App />);

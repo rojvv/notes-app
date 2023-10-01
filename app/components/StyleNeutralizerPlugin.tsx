@@ -1,12 +1,13 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
-  $createTextNode,
   $getSelection,
   $isRangeSelection,
   COMMAND_PRIORITY_CRITICAL,
   FORMAT_TEXT_COMMAND,
 } from "lexical";
 import { useEffect } from "react";
+import { getSelectedLink } from "../utilities";
+import { TOGGLE_LINK_COMMAND } from "@lexical/link";
 
 export function StyleNeutralizerPlugin() {
   const [editor] = useLexicalComposerContext();
@@ -27,12 +28,6 @@ export function StyleNeutralizerPlugin() {
             return false;
           }
 
-          for (const node of selection.getNodes()) {
-            if (node.getType() == "username") {
-              node.replace($createTextNode(node.getTextContent()));
-            }
-          }
-
           do {
             if (selection.hasFormat("bold")) {
               selection.formatText("bold");
@@ -49,6 +44,11 @@ export function StyleNeutralizerPlugin() {
             selection.hasFormat("strikethrough") ||
             selection.hasFormat("underline")
           );
+
+          const selectedLink = getSelectedLink(selection);
+          if (selectedLink != null) {
+            editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+          }
         });
         return false;
       },

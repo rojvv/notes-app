@@ -1,3 +1,4 @@
+import { TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $getSelection,
@@ -7,6 +8,7 @@ import {
   KEY_MODIFIER_COMMAND,
 } from "lexical";
 import { useEffect } from "react";
+import { editorStore } from "../state";
 
 export function ShortcutsPlugin() {
   const [editor] = useLexicalComposerContext();
@@ -25,15 +27,16 @@ export function ShortcutsPlugin() {
             if (!$isRangeSelection(selection)) {
               return false;
             }
-            if (selection.hasFormat("strikethrough")) {
-                // selection
-            }
             selection.formatText("strikethrough");
           });
           return true;
         } else if (code == "KeyM" && (ctrlKey || metaKey) && shiftKey) {
           event.preventDefault();
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
+          return true;
+        } else if (code == "KeyK" && (ctrlKey || metaKey)) {
+          event.preventDefault();
+          editorStore.setState({ linkDialogOpen: true });
           return true;
         }
         return false;

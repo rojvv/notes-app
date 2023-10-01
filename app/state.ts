@@ -28,13 +28,29 @@ export const viewStore = create<
   setView: (view: View) => set({ view }),
 }));
 
-export const editorStore = create<{ empty: boolean; editable: boolean,shouldFocus:boolean }>(
+export const editorStore = create<
+  {
+    empty: boolean;
+    editable: boolean;
+    shouldFocus: boolean;
+    linkDialogOpen: boolean;
+    link: boolean;
+  }
+>(
   () => ({
     empty: false,
     editable: false,
     shouldFocus: false,
+    link: false,
+    linkDialogOpen: false,
   }),
 );
+
+viewStore.subscribe(({ view: { _ } }) => {
+  if (_ != "note") {
+    editorStore.setState({ linkDialogOpen: false });
+  }
+});
 
 let isLoadingNote = false;
 export async function loadNote(id: string, editable = false) {

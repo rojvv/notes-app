@@ -8,6 +8,7 @@ import { LinkNode } from "@lexical/link";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { UsernamePlugin, UsernameNode } from "./UsernamePlugin";
 import { ContentEditable } from "./ContentEditable";
@@ -23,6 +24,7 @@ import { ToolbarPlugin } from "./ToolbarPlugin";
 import { StyleNeutralizerPlugin } from "./StyleNeutralizerPlugin";
 import { StateSyncPlugin } from "./StateSyncPlugin";
 import { editorStore } from "../state";
+import { LinkDialog } from "./LinkDialog";
 
 export function Editor({
   onChange,
@@ -81,6 +83,8 @@ export function Editor({
             onChange(state);
           }}
         />
+        <LinkDialog />
+        <LinkPlugin />
         <StateSyncPlugin />
         <ShortcutsPlugin />
         <StyleNeutralizerPlugin />

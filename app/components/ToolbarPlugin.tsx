@@ -5,10 +5,10 @@ import {
   $getSelection,
   $isRangeSelection,
   FORMAT_TEXT_COMMAND,
-  TextFormatType,
 } from "lexical";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { editorStore } from "../state";
+import { getSelectedLink } from "../utilities";
 
 const formattingButtons = [
   ["bold", <span>B</span>, "Bold - Ctrl+B"],
@@ -16,10 +16,11 @@ const formattingButtons = [
   ["underline", <span>U</span>, "Underline - Ctrl+U"],
   ["strikethrough", <span>S</span>, "Strikethrough - Ctrl+Shift+X"],
   ["code", <span>C</span>, "Code - Ctrl+Shift+M"],
+  ["link", <span>L</span>, "Link - Ctrl+K"],
 ] as const;
 
 export function ToolbarPlugin() {
-  const editable = editorStore((v) => v.editable);
+  const [editable, link] = editorStore((v) => [v.editable, v.link]);
   const divRef = createRef<HTMLDivElement>();
   const [editor] = useLexicalComposerContext();
   const bold = useState(false);
@@ -49,6 +50,7 @@ export function ToolbarPlugin() {
       states.underline[1](selection.hasFormat("underline"));
       states.strikethrough[1](selection.hasFormat("strikethrough"));
       states.code[1](selection.hasFormat("code"));
+      editorStore.setState({ link: getSelectedLink(selection) != null });
     }
   }, [editor]);
 
@@ -56,7 +58,9 @@ export function ToolbarPlugin() {
     return editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         $updateToolbar();
-        editorStore.setState({empty: $getRoot().getTextContent().trim().length == 0});
+        editorStore.setState({
+          empty: $getRoot().getTextContent().trim().length == 0,
+        });
       });
     });
   }, [editor, $updateToolbar]);
@@ -87,13 +91,18 @@ export function ToolbarPlugin() {
               type="button"
               title={title}
               onClick={() => {
-                editor.dispatchCommand(
-                  FORMAT_TEXT_COMMAND,
-                  stateId as TextFormatType
-                );
+                if (stateId == "link") {
+                  editorStore.setState({ linkDialogOpen: true });
+                  return;
+                }
+                editor.dispatchCommand(FORMAT_TEXT_COMMAND, stateId);
               }}
               className={`cursor-default py-1.5 px-2 h-full w-full text-[95%] flex items-center justify-center text-center border-b-2 duration-100 active:bg-hint/25 ${
-                states[stateId as keyof typeof states][0]
+                (
+                  stateId == "link"
+                    ? link
+                    : states[stateId as keyof typeof states][0]
+                )
                   ? "border-button"
                   : "border-hint/25"
               }`}

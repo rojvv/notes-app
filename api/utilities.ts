@@ -16,14 +16,16 @@ function hasFormat(format: number, f: Format) {
 export function collectTextAndEntities(node: any): [string, MessageEntity[]] {
   let text = "";
   const entities = new Array<MessageEntity>();
-  for (const i of collectTextAndFormat(node)) {
-    if (typeof i === "string") {
-      text += i;
-      continue;
-    }
-    const [text_, format] = i;
+  for (const { text: text_, format, link } of collectTextAndFormat(node)) {
     const offset = text.length;
     const length = text_.length;
+    if (link !== undefined) {
+      entities.push({ type: "text_link", offset, length, url: link });
+    }
+    if (format === undefined) {
+      text += text_;
+      continue;
+    }
     if (hasFormat(format, Format.Code)) {
       entities.push({ type: "code", offset, length });
     } else {
@@ -47,12 +49,14 @@ export function collectTextAndEntities(node: any): [string, MessageEntity[]] {
 
 // deno-lint-ignore no-explicit-any
 export function collectText(node: any) {
-  return collectTextAndFormat(node).map((v) => typeof v === "string" ? v : v[0])
+  return collectTextAndFormat(node).map((v) => v.text)
     .join("");
 }
-// deno-lint-ignore no-explicit-any
-function collectTextAndFormat(node: any): (string | [string, number])[] {
-  const text = new Array<string | [string, number]>();
+function collectTextAndFormat(
+  // deno-lint-ignore no-explicit-any
+  node: any,
+): { text: string; format?: number; link?: string }[] {
+  const text = new Array<{ text: string; format?: number; link?: string }>();
   try {
     if (Array.isArray(node)) {
       for (const i of node) {
@@ -66,17 +70,20 @@ function collectTextAndFormat(node: any): (string | [string, number])[] {
       for (const i of collectTextAndFormat(node.children)) {
         text.push(i);
       }
-      text.push("\n");
+      text.push({ text: "\n" });
     } else if ("text" in node) {
       let format = 0;
       if ("format" in node && typeof node.format === "number") {
         format = node.format;
       }
-      text.push([node.text, format]);
+      text.push({ text: node.text, format });
     } else if ("children" in node) {
       for (const child of node.children) {
         for (const i of collectTextAndFormat(child)) {
-          text.push(i);
+          text.push({
+            ...i,
+            link: node.type == "link" ? node.url : i.link,
+          });
         }
       }
     }

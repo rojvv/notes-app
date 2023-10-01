@@ -4,10 +4,17 @@ import { editorStore } from "../state";
 
 export function AutoFocusPlugin() {
   const [editor] = useLexicalComposerContext();
-  const [editable, shouldFocus] = editorStore((v) => [
+  const [editable, shouldFocus, linkDialogOpen] = editorStore((v) => [
     v.editable,
     v.shouldFocus,
+    v.linkDialogOpen,
   ]);
+
+  useEffect(() => {
+    if (!linkDialogOpen) {
+      editorStore.setState({ shouldFocus: true });
+    }
+  }, [linkDialogOpen]);
 
   useEffect(() => {
     if (!editable) {
