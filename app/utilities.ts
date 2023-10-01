@@ -2,6 +2,10 @@ import { RangeSelection } from "lexical";
 import { $isAtNodeEnd } from "@lexical/selection";
 import { $isLinkNode } from "@lexical/link";
 
+export const isMac = /macos|iphone|ipad|ipod/.test(
+  navigator.userAgent.toLowerCase().replaceAll(" ", ""),
+);
+
 function getSelectedNode(selection: RangeSelection) {
   const anchor = selection.anchor;
   const focus = selection.focus;

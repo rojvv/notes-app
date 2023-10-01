@@ -8,15 +8,23 @@ import {
 } from "lexical";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { editorStore } from "../state";
-import { getSelectedLink } from "../utilities";
+import { getSelectedLink, isMac } from "../utilities";
 
+const boldShortcut = isMac ? "⌘B" : "Ctrl+B";
+const italicShortcut = isMac ? "⌘I" : "Ctrl+I";
+const underlineShortcut = isMac ? "⇧⌘U" : "Ctrl+U"; // different
+const strikethroughShortcut = isMac ? "⇧⌘X" : "Ctrl+U";
+const codeShortcut = isMac ? "⇧⌘K" : "Ctrl+Shift+M"; // different
+const linkShortcut = isMac ? "⌘U" : "Ctrl+K"; // different
+
+const s = (v: string) => ` (${v})`;
 const formattingButtons = [
-  ["bold", <span>B</span>, "Bold - Ctrl+B"],
-  ["italic", <span>I</span>, "Italic - Ctrl+I"],
-  ["underline", <span>U</span>, "Underline - Ctrl+U"],
-  ["strikethrough", <span>S</span>, "Strikethrough - Ctrl+Shift+X"],
-  ["code", <span>C</span>, "Code - Ctrl+Shift+M"],
-  ["link", <span>L</span>, "Link - Ctrl+K"],
+  ["bold", <span>B</span>, "Bold" + s(boldShortcut)],
+  ["italic", <span>I</span>, "Italic" + s(italicShortcut)],
+  ["underline", <span>U</span>, "Underline" + s(underlineShortcut)],
+  ["strikethrough", <span>S</span>, "Strikethrough" + s(strikethroughShortcut)],
+  ["code", <span>C</span>, "Code" + s(codeShortcut)],
+  ["link", <span>L</span>, "Link" + s(linkShortcut)],
 ] as const;
 
 export function ToolbarPlugin() {
