@@ -4,6 +4,7 @@ import {
   $isElementNode,
   $isRangeSelection,
   $isTextNode,
+  ElementNode,
   LexicalEditor,
   LexicalNode,
   RangeSelection,
@@ -84,6 +85,8 @@ export function getSelectedLinksAndMarks(selection: RangeSelection) {
   const nodes = [
     anchorNode,
     focusNode,
+    anchorNode?.getParent() ?? null as ElementNode | null,
+    anchorNode?.getParent() ?? null as ElementNode | null,
     ...((anchorNode != null && focusNode != null)
       ? anchorNode.getNodesBetween(focusNode)
       : []),
