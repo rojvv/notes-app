@@ -34,8 +34,7 @@ export function Editor({
   const initialConfig: InitialConfigType = {
     namespace: "NoteEditor",
     theme: {
-      hashtag:
-        "[&:not(code)]:(text-link bg-secondary_bg rounded-lg px-[8px] py-[3px] text-sm)",
+      hashtag: "[&:not(code)]:text-link",
       username: "[&:not(code)]:text-link",
       cashtag: "[&:not(code)]:text-link",
       url: "[&:not(code)]:text-link",
