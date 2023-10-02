@@ -29,6 +29,18 @@ app.use(async (_ctx, next) => {
   }
 });
 
+const botTokenPath = `/${env.BOT_TOKEN.replaceAll(":", "\\:")}`;
+router.post(botTokenPath, webhookCallback(bot, "oak"));
+router.get(botTokenPath, async (ctx) => {
+  try {
+    ctx.response.body = await bot.api.setWebhook(ctx.request.url.toString(), {
+      drop_pending_updates: true,
+    });
+  } catch (err) {
+    ctx.response.body = err instanceof Error ? err.message : String(err);
+  }
+});
+
 router.use(async (ctx, next) => {
   const state = await validateRequest(ctx.request.headers);
   if (state == null) {
@@ -110,18 +122,6 @@ router.post("/notes", async (ctx) => {
     .returning({ id: notes.id })
     .execute();
   ctx.response.body = id;
-});
-
-const botTokenPath = `/${env.BOT_TOKEN.replaceAll(":", "\\:")}`;
-router.post(botTokenPath, webhookCallback(bot, "oak"));
-router.get(botTokenPath, async (ctx) => {
-  try {
-    ctx.response.body = await bot.api.setWebhook(ctx.request.url.toString(), {
-      drop_pending_updates: true,
-    });
-  } catch (err) {
-    ctx.response.body = err instanceof Error ? err.message : String(err);
-  }
 });
 
 app.use(router.routes());
