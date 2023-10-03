@@ -29,9 +29,13 @@ app.use(async (_ctx, next) => {
   }
 });
 
+const polling = Deno.env.get("POLLING") !== undefined;
 const botTokenPath = `/${env.BOT_TOKEN.replaceAll(":", "\\:")}`;
-router.post(botTokenPath, webhookCallback(bot, "oak"));
+router.post(botTokenPath, polling ? () => {} : webhookCallback(bot, "oak"));
 router.get(botTokenPath, async (ctx) => {
+  if (polling) {
+    return;
+  }
   try {
     ctx.response.body = await bot.api.setWebhook(ctx.request.url.toString(), {
       drop_pending_updates: true,
@@ -132,7 +136,7 @@ app.use((ctx) => {
 
 await runMigrations();
 
-if (Deno.env.get("DEBUG")) {
+if (polling) {
   bot.start({ drop_pending_updates: true });
 }
 
