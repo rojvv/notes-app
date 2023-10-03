@@ -43,7 +43,7 @@ export function HelpDialog() {
           }}
         >
           <div className="w-full bg-secondary_bg p-5 max-w-md rounded-md flex flex-col gap-5">
-            <div className="grid grid-cols-2">
+            <div className="grid grid-cols-2 cursor-default">
               <div className="col-span-2 grid grid-cols-2 font-bold border-b border-hint/25 mb-1 pb-1">
                 <span>Transformation</span>
                 <span>Shortcut</span>
@@ -61,7 +61,7 @@ export function HelpDialog() {
             <div className="flex items-center justify-end w-full">
               <button
                 type="button"
-                className="text-button px-4 py-1 hover:opacity-75 duration-75"
+                className="text-button px-4 py-1 hover:opacity-75 duration-75 cursor-default"
                 onClick={() => editorStore.setState({ helpDialogOpen: false })}
               >
                 Dismiss

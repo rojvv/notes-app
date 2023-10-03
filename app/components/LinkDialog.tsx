@@ -79,12 +79,12 @@ export function LinkDialog() {
             <div className="flex items-center justify-end w-full">
               <button
                 type="button"
-                className="text-button px-4 py-1 hover:opacity-75 duration-75"
+                className="text-button px-4 py-1 hover:opacity-75 duration-75 cursor-default"
                 onClick={() => editorStore.setState({ linkDialogOpen: false })}
               >
                 Cancel
               </button>
-              <button className="text-button_text bg-button px-4 py-1 rounded-md hover:opacity-75 duration-75">
+              <button className="text-button_text bg-button px-4 py-1 rounded-md hover:opacity-75 duration-75 cursor-default">
                 {link ? (url == "" ? "Remove" : "Update") : "Create"}
               </button>
             </div>
