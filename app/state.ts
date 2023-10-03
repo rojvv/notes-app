@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { headers } from "./common";
+import { headers } from "./misc";
 import { Note } from "./types";
 
 export type View = { _: "notes" } | {
@@ -35,6 +35,7 @@ export const editorStore = create<
     shouldFocus: boolean;
     linkDialogOpen: boolean;
     link: boolean;
+    helpDialogOpen: boolean;
   }
 >(
   () => ({
@@ -43,6 +44,7 @@ export const editorStore = create<
     shouldFocus: false,
     link: false,
     linkDialogOpen: false,
+    helpDialogOpen: false,
   }),
 );
 

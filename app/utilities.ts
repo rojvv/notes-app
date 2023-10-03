@@ -18,10 +18,6 @@ import {
   MarkNode,
 } from "@lexical/mark";
 
-export const isMac = /macos|iphone|ipad|ipod/.test(
-  navigator.userAgent.toLowerCase().replaceAll(" ", ""),
-);
-
 function getSelectedNode(selection: RangeSelection) {
   const anchor = selection.anchor;
   const focus = selection.focus;

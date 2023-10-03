@@ -26,6 +26,7 @@ import { StyleNeutralizerPlugin } from "./StyleNeutralizerPlugin";
 import { StateSyncPlugin } from "./StateSyncPlugin";
 import { editorStore } from "../state";
 import { LinkDialog } from "./LinkDialog";
+import { HelpDialog } from "./HelpDialog";
 
 export function Editor({
   onChange,
@@ -86,6 +87,7 @@ export function Editor({
             onChange(state);
           }}
         />
+        <HelpDialog />
         <LinkDialog />
         <LinkPlugin />
         <StateSyncPlugin />

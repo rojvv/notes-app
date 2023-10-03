@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { WebApp } from "@grammyjs/web-app";
 import { Editor } from "../components/Editor";
-import { headers } from "../common";
+import { headers } from "../misc";
 
 async function update(id: string, state: string) {
   WebApp.enableClosingConfirmation();
@@ -11,7 +11,7 @@ async function update(id: string, state: string) {
     WebApp.disableClosingConfirmation(); // TODO: retry
   }
 }
-  
+
 export function Note({
   id,
   initialState,

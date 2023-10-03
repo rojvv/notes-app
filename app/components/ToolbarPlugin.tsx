@@ -8,12 +8,8 @@ import {
 } from "lexical";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { editorStore } from "../state";
-import {
-  getSelectedLink,
-  getSelectedMark,
-  isMac,
-  toggleSpoiler,
-} from "../utilities";
+import { getSelectedLink, getSelectedMark, toggleSpoiler } from "../utilities";
+import { isMac } from "../misc";
 
 const boldShortcut = isMac ? "⌘B" : "Ctrl+B";
 const italicShortcut = isMac ? "⌘I" : "Ctrl+I";
@@ -32,6 +28,7 @@ const formattingButtons = [
   ["code", <span>C</span>, "Code" + s(codeShortcut)],
   ["link", <span>L</span>, "Link" + s(linkShortcut)],
   ["spoiler", <span>S</span>, "Spoiler" + s(spoilerShortcut)],
+  ["help", <span>?</span>, "Help"],
 ] as const;
 
 export function ToolbarPlugin() {
@@ -113,16 +110,17 @@ export function ToolbarPlugin() {
                   editorStore.setState({ linkDialogOpen: true });
                 } else if (stateId == "spoiler") {
                   toggleSpoiler(editor);
+                } else if (stateId == "help") {
+                  editorStore.setState({ helpDialogOpen: true });
                 } else {
                   editor.dispatchCommand(FORMAT_TEXT_COMMAND, stateId);
                 }
               }}
               className={`cursor-default py-1.5 px-2 h-full w-full text-[95%] flex items-center justify-center text-center border-b-2 duration-100 active:bg-hint/25 ${
-                (
-                  stateId == "link"
-                    ? link
-                    : states[stateId as keyof typeof states][0]
-                )
+                stateId != "help" &&
+                (stateId == "link"
+                  ? link
+                  : states[stateId as keyof typeof states][0])
                   ? "border-button"
                   : "border-hint/25"
               }`}

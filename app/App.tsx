@@ -3,9 +3,8 @@ import { Transition } from "react-transition-group";
 import { WebApp } from "@grammyjs/web-app";
 import { Note } from "./views/Note";
 import { Notes } from "./views/Notes";
-import { MainButtonText } from "./constants";
 import { View, editorStore, loadNote, loadNotes, viewStore } from "./state";
-import { headers } from "./common";
+import { headers, MainButtonText } from "./misc";
 
 WebApp.MainButton.onClick(async () => {
   WebApp.MainButton.disable();

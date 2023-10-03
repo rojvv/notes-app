@@ -7,7 +7,8 @@ import {
 } from "lexical";
 import { useEffect } from "react";
 import { editorStore } from "../state";
-import { isMac, toggleSpoiler } from "../utilities";
+import { toggleSpoiler } from "../utilities";
+import { isMac } from "../misc";
 
 const codeKey = isMac ? "KeyK" : "KeyM";
 
