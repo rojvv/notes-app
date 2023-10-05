@@ -52,7 +52,7 @@ router.use(async (ctx, next) => {
     return;
   }
   Object.assign(ctx.state, state);
-  return next();
+  await next();
 });
 
 router.get("/notes/:id", async (ctx) => {

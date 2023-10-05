@@ -84,12 +84,9 @@ POLLING=1 # Whether to use polling
 The BOT_TOKEN is the bot token [@BotFather](https://t.me/BotFather) gave you.
 The POSTGRESQL_URI is your PostgreSQL connection URI, and it is
 postgres://postgres@127.0.0.1/main if you have set up your PostgreSQL server by
-following the above guide.
+following the above [guide](#setting-up-postgresql).
 
 ### Telegram-side configuration
-
-While both of the following methods have their own advantages and disadvantages,
-the first method is recommended if you could create a bot in the test servers.
 
 #### Method 1: Test server
 
