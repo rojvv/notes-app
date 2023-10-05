@@ -175,6 +175,10 @@ BOT_TOKEN=1234567890:ABCDEFGHIJKLMNOPQRSTUVWXYZ
 
 # The public https URL where the app will be available at. Recommended but not necessary.
 WEB_APP_URL=https://your-domain.com
+
+# You can also specify where the server will accept connections from. Don't forget to edit docker-compose.yml if you set a different port.
+HOST=127.0.0.1
+PORT=3000
 ```
 
 3. Create a volume named `notes-app`.

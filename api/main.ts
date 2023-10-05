@@ -140,5 +140,5 @@ if (polling) {
   bot.start({ drop_pending_updates: true });
 }
 
-app.listen({ port: 3000 });
-console.log("http://localhost:3000");
+app.listen({ hostname: env.HOST, port: env.PORT });
+console.log(`http://${env.HOST}:${env.PORT}`);
