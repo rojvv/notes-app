@@ -99,23 +99,31 @@ export function getSelectedLinksAndMarks(selection: RangeSelection) {
   return linksAndMarks;
 }
 
-export function toggleSpoiler(editor: LexicalEditor) {
-  editor.update(() => {
-    const selection = $getSelection();
-    if ($isRangeSelection(selection)) {
-      const node = getSelectedMark(selection);
-      if (node != null) {
-        $unwrapMarkNode(node);
-      } else {
-        if (selection.hasFormat("code")) {
-          selection.formatText("code");
+export function $toggleSpoiler() {
+  const selection = $getSelection();
+  if ($isRangeSelection(selection)) {
+    const node = getSelectedMark(selection);
+    if (node != null) {
+      $unwrapMarkNode(node);
+    } else {
+      for (const node of selection.getNodes()) {
+        if ($isTextNode(node)) {
+          if (node.hasFormat("code")) {
+            node.toggleFormat("code");
+          }
+        } else if ($isElementNode(node)) {
+          for (const textNode of node.getAllTextNodes()) {
+            if (textNode.hasFormat("code")) {
+              textNode.toggleFormat("code");
+            }
+          }
         }
-        $wrapSelectionInMarkNode(
-          selection,
-          selection.isBackward(),
-          crypto.randomUUID(),
-        );
       }
+      $wrapSelectionInMarkNode(
+        selection,
+        selection.isBackward(),
+        crypto.randomUUID(),
+      );
     }
-  });
+  }
 }

@@ -8,7 +8,7 @@ import {
 } from "lexical";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { editorStore } from "../state";
-import { getSelectedLink, getSelectedMark, toggleSpoiler } from "../utilities";
+import { getSelectedLink, getSelectedMark, $toggleSpoiler } from "../utilities";
 import { isMac } from "../misc";
 
 const boldShortcut = isMac ? "⌘B" : "Ctrl+B";
@@ -109,7 +109,9 @@ export function ToolbarPlugin() {
                 if (stateId == "link") {
                   editorStore.setState({ linkDialogOpen: true });
                 } else if (stateId == "spoiler") {
-                  toggleSpoiler(editor);
+                  editor.update(() => {
+                    $toggleSpoiler();
+                  });
                 } else if (stateId == "help") {
                   editorStore.setState({ helpDialogOpen: true });
                 } else {
