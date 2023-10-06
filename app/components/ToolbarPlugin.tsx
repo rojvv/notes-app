@@ -9,27 +9,7 @@ import {
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { editorStore } from "../state";
 import { getSelectedLink, getSelectedMark, $toggleSpoiler } from "../utilities";
-import { isMac } from "../misc";
-
-const boldShortcut = isMac ? "⌘B" : "Ctrl+B";
-const italicShortcut = isMac ? "⌘I" : "Ctrl+I";
-const underlineShortcut = isMac ? "⇧⌘U" : "Ctrl+U"; // different
-const strikethroughShortcut = isMac ? "⇧⌘X" : "Ctrl+U";
-const codeShortcut = isMac ? "⇧⌘K" : "Ctrl+Shift+M"; // different
-const linkShortcut = isMac ? "⌘U" : "Ctrl+K"; // different
-const spoilerShortcut = isMac ? "⇧⌘S" : "Ctrl+Shift+S"; // different
-
-const s = (v: string) => ` (${v})`;
-const formattingButtons = [
-  ["bold", <span>B</span>, "Bold" + s(boldShortcut)],
-  ["italic", <span>I</span>, "Italic" + s(italicShortcut)],
-  ["underline", <span>U</span>, "Underline" + s(underlineShortcut)],
-  ["strikethrough", <span>X</span>, "Strikethrough" + s(strikethroughShortcut)],
-  ["code", <span>C</span>, "Code" + s(codeShortcut)],
-  ["link", <span>L</span>, "Link" + s(linkShortcut)],
-  ["spoiler", <span>S</span>, "Spoiler" + s(spoilerShortcut)],
-  ["help", <span>?</span>, "Help"],
-] as const;
+import { toolbarButtons } from "../misc";
 
 export function ToolbarPlugin() {
   const [editable, link] = editorStore((v) => [v.editable, v.link]);
@@ -100,11 +80,11 @@ export function ToolbarPlugin() {
           ref={divRef}
           className={`flex duration-[150ms] select-none overflow-hidden items-center text-center justify-center ${boXwar[state]}`}
         >
-          {formattingButtons.map(([stateId, icon, title]) => (
+          {toolbarButtons.map(([stateId, icon, name, shortcut]) => (
             <button
               key={stateId}
               type="button"
-              title={title}
+              title={shortcut == null ? name :`${name} (${shortcut})`}
               onClick={() => {
                 if (stateId == "link") {
                   editorStore.setState({ linkDialogOpen: true });

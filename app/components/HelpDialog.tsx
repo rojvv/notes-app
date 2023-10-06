@@ -1,7 +1,7 @@
 import { Fragment, createRef, useEffect } from "react";
 import { Transition } from "react-transition-group";
 import { editorStore } from "../state";
-import { formattingButtons } from "../misc";
+import { toolbarButtons } from "../misc";
 
 const c = {
   entering: "opacity-1",
@@ -48,13 +48,13 @@ export function HelpDialog() {
                 <span>Transformation</span>
                 <span>Shortcut</span>
               </div>
-              {formattingButtons.map(([k, v, t]) => (
+              {toolbarButtons.slice(0, -1).map(([k, v, name, shortcut]) => (
                 <Fragment key={k}>
                   <div className="flex">
                     <div className="flex w-4">{v}</div>{" "}
-                    <div>{t.slice(0, t.indexOf("(") - 1)}</div>
+                    <div>{name}</div>
                   </div>
-                  <span>{t.slice(t.indexOf("(") + 1, t.length - 1)}</span>
+                  <span>{shortcut}</span>
                 </Fragment>
               ))}
             </div>
