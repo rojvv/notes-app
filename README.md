@@ -1,6 +1,6 @@
 # Notes
 
-> A simple Telegram mini app that lets you take notes.
+A simple Telegram mini app that lets you take notes.
 
 - [Features](#features)
 - [Architecture](#architecture)
