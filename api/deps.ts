@@ -6,7 +6,6 @@ export { loadSync } from "std/dotenv/mod.ts";
 
 export { z } from "zod/index.ts";
 export { CORS } from "oak_cors/mod.ts";
-export { Client } from "postgres/mod.ts";
 export { and, eq, sql } from "drizzle-orm";
 export { type MessageEntity } from "grammy/types.ts";
 export { default as postgres } from "postgresjs/mod.js";
